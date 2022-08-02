@@ -48,17 +48,17 @@ if (ON != $t_rem_hours) {
 // this needs to be made flexible
 // we will only produce overview for those projects that have a separate manager
 //
-$baseline = time(true) + ($t_rem_days * $multiply * 60 * 60);
-$basenow = time(true);
+$basenow = time();
+$baseline = time() + ($t_rem_days * $multiply * 60 * 60) + $basenow;
 if (ON == $t_rem_handler) {
     $query = "select bugs.id, bugs.handler_id, bugs.project_id, bugs.priority, bugs.category_id, bugs.status, bugs.severity, bugs.summary from $t_bug_table bugs JOIN $t_bug_text_table text ON (bugs.bug_text_id = text.id) where status in (".implode(",", $t_rem_status).") and due_date<=$baseline and handler_id<>0 ";
-    if (ON == $t_rem_ign_past) {
-        $query .=" and due_date>=$basenow" ;
-    } else {
-        if (ON == $t_rem_ignore) {
-            $query .=" and due_date>1" ;
-        }
-    }
+    // if (ON == $t_rem_ign_past) {
+    //     $query .=" and due_date>=$basenow" ;
+    // } else {
+    //     if (ON == $t_rem_ignore) {
+    //         $query .=" and due_date>1" ;
+    //     }
+    // }
     if ($t_rem_project>0) {
         $query .=" and project_id=$t_rem_project" ;
     }
